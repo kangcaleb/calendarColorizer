@@ -11,6 +11,10 @@ export const categorizeEvents = async (req: Request, res: Response) => {
     return res.status(400).json({ error: expectedArrayOfEventsMessage })
   }
 
+  if(events.length === 0) {
+    const noEventsProvidedMessage = "No events provided";
+    console.log("No events provided");
+    return res.status(400).json({ error: noEventsProvidedMessage });
   try {
     const categories = await getCategoriesForEvents(events);
     res.json({ categories });
