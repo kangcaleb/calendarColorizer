@@ -5,6 +5,7 @@ const openai = new OpenAI({
 });
 
 interface CalendarEvent {
+  eventId: string;
   title: string;
   description?: string;
 }
@@ -14,8 +15,8 @@ export const getCategoriesForEvents = async (
 ): Promise<string[]> => {
   const eventList = events
     .map(
-      (event, i) =>
-        `Event ${i + 1}:
+      (event) =>
+        `Event ${event.eventId}:
         Title: "${event.title}"
         Description: "${event.description || ""}"`,
     )
@@ -31,10 +32,10 @@ export const getCategoriesForEvents = async (
 
       ${eventList}
 
-      Return a JSON array of objects with "title" and "category" for each event, like so:
+      Return a JSON array of objects with "eventId", "title" and "category" for each event, like so:
 [
-  { "title": "Event Title", "category": "Church Schedule" },
-  { "title": "Another Event", "category": "Travel" }
+  { "eventId": "1234567890", "title": "Event Title", "category": "Church Schedule" },
+  { "eventId": "1234567891", "title": "Another Event", "category": "Travel" }
 ]`;
 
   const response = await openai.chat.completions.create({

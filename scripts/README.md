@@ -23,7 +23,7 @@ A Google Apps Script that automatically categorizes and color-codes Google Calen
 
 4. **Set up automation (optional):**
    - Create a trigger to run `colorCodeWithAI()` automatically
-   - Recommended: Run every 1-2 hours to catch new events
+   - Recommended: Run every once a day to catch new events
 
 ### Functions
 
@@ -33,7 +33,7 @@ A Google Apps Script that automatically categorizes and color-codes Google Calen
 ### How it Works
 
 1. **Event Detection:** Finds events that were created or modified in the last 24 hours
-2. **API Call:** Sends event titles and descriptions to the backend API
+2. **API Call:** Sends event titles, descriptions, and **eventId** to the backend API
 3. **Color Coding:** Applies predefined colors based on the AI categorization:
    - **Purple:** Church Schedule
    - **Orange:** Events to invite students to
@@ -42,10 +42,36 @@ A Google Apps Script that automatically categorizes and color-codes Google Calen
    - **Red:** Other appointments
    - **Yellow:** Time-boxed To-do tasks
 
+### Data Format
+
+- **Request payload:**
+  ```json
+  [
+    {
+      "eventId": "google_calendar_event_id",
+      "title": "Meeting with John",
+      "description": "Discuss project updates"
+    }
+  ]
+  ```
+- **Response:**
+  ```json
+  {
+    "categories": [
+      {
+        "eventId": "google_calendar_event_id",
+        "title": "Meeting with John",
+        "category": "Appointment with Friends"
+      }
+    ]
+  }
+  ```
+
+
 ### Usage
 
 1. **Manual execution:** Run `colorCodeWithAI()` in the Google Apps Script editor
-2. **Automated execution:** Set up a time-based trigger to run every few hours
+2. **Automated execution:** Set up a time-based trigger to run every day
 3. **Event processing:** Only processes events modified in the last 24 hours
 
 ### Configuration

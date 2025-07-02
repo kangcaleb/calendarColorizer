@@ -13,12 +13,13 @@ export const categorizeEvents = async (req: Request, res: Response) => {
 
   if(events.length === 0) {
     const noEventsProvidedMessage = "No events provided";
-    console.log("No events provided");
+    console.error("No events provided");
     return res.status(400).json({ error: noEventsProvidedMessage });
   }
   
   try {
     const categories = await getCategoriesForEvents(events);
+    console.log("Categories:", categories);
     res.json({ categories });
   } catch (error: any) {
     console.error("❌ AI categorization failed:", error.message);

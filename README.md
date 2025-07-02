@@ -24,12 +24,10 @@ A simple Express + TypeScript API that uses OpenAI to categorize calendar events
 POST to `/categorize` with:
 
 ```json
-{
-  "events": [
-    { "title": "Lunch with Tom", "description": "Noon at Chipotle" },
-    { "title": "Church Service", "description": "10am Sunday" }
-  ]
-}
+[
+  { "eventId": "google_calendar_event_id", "title": "Lunch with Tom", "description": "Noon at Chipotle" },
+  { "eventId": "google_calendar_event_id_2", "title": "Church Service", "description": "10am Sunday" }
+]
 ```
 
 ## Deployment
