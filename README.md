@@ -2,7 +2,7 @@
 
 A simple Express + TypeScript API that uses OpenAI to categorize calendar events.
 
-## Getting Started
+## Running locally - Getting Started
 
 1. Install dependencies:
 
