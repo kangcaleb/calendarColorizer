@@ -32,10 +32,10 @@ export const getCategoriesForEvents = async (
 
       ${eventList}
 
-      Return a JSON array of objects with "eventId", "title" and "category" for each event, like so:
+      Return a JSON array of objects with "eventId", and "category" for each event, like so:
 [
-  { "eventId": "1234567890", "title": "Event Title", "category": "Church Schedule" },
-  { "eventId": "1234567891", "title": "Another Event", "category": "Travel" }
+  { "eventId": "1234567890", "category": "Church Schedule" },
+  { "eventId": "1234567891", "category": "Travel" }
 ]`;
 
   const response = await openai.chat.completions.create({
