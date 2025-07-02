@@ -31,3 +31,13 @@ POST to `/categorize` with:
   ]
 }
 ```
+
+## Deployment
+Calendar Categorizer is accessible at https://calendarcolorizer.onrender.com.
+
+## Client Scripts
+
+The `scripts/` directory contains client-side tools and scripts:
+
+- **Google Apps Script** (`scripts/google-apps-script.js`) - Automatically categorizes Google Calendar events by calling this API
+- See `scripts/README.md` for detailed setup and usage instructions
