@@ -20,6 +20,8 @@ export const getCategoriesForEvents = async (
   )
   .join("\n\n");
 
+  console.log("🟡 [AI] Event list:", eventList);
+
   const prompt = `Categorize each calendar event into one of the following categories:
 
   - Church Schedule
