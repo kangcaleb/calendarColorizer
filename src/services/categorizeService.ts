@@ -74,14 +74,25 @@ export const getCategoriesForEvents = async (
 
   console.log("🟢 [AI] Raw response received");
   const output = response.choices[0].message.content?.trim() || "[]";
-  console.log("Raw response (first 500 chars):", output.slice(0, 500));
+  console.log("🟢 [AI] Full raw response:");
+  console.log(output);
 
-  const parsed = JSON.parse(output);
-  console.log("🟢 [AI] Parsed response:", parsed);
+  try {
+    const parsed = JSON.parse(output);
+    console.log("✅ Successfully parsed JSON:", parsed);
 
-  if (!Array.isArray(parsed)) {
-    throw new Error("Invalid response format.");
+    if (!Array.isArray(parsed)) {
+      throw new Error("Invalid response format.");
+    }
+
+    return parsed;
+  } catch (e) {
+    console.error("❌ JSON parsing failed:", e.message);
+  
+    const failPoint = parseInt(e.message.match(/position (\d+)/)?.[1] || '0', 10);
+    const context = output.slice(Math.max(failPoint - 30, 0), failPoint + 30);
+    console.error("🔍 Context around error:", context);
+  
+    throw e;
   }
-
-  return parsed;
 };
