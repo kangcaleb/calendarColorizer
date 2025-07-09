@@ -53,6 +53,10 @@ export const getCategoriesForEvents = async (
   ⚠️ Do not include any explanation, headings, or repeat the input text.  
   ✅ Only return **valid JSON**.`;     
 
+  console.log("🟡 [AI] Sending categorization prompt...");
+  console.log("Number of events in prompt:", events.length);
+  console.log("Prompt:", prompt);
+
   const response = await openai.chat.completions.create({
     model: "gpt-4.1",
     messages: [
@@ -66,8 +70,12 @@ export const getCategoriesForEvents = async (
     temperature: 0,
   });
 
+  console.log("🟢 [AI] Raw response received");
   const output = response.choices[0].message.content?.trim() || "[]";
+  console.log("Raw response (first 500 chars):", output.slice(0, 500));
+
   const parsed = JSON.parse(output);
+  console.log("🟢 [AI] Parsed response:", parsed);
 
   if (!Array.isArray(parsed)) {
     throw new Error("Invalid response format.");
