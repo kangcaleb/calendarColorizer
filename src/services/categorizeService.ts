@@ -14,39 +14,44 @@ export const getCategoriesForEvents = async (
   events: CalendarEvent[],
 ): Promise<string[]> => {
   const eventList = events
-    .map(
-      (event) =>
-        `Event ${event.eventId}:
-        Title: "${event.title}"
-        Description: "${event.description || ""}"`,
-    )
-    .join("\n\n");
+  .map(
+    (event) =>
+      `Event ${event.eventId}:\nTitle: ${event.title}\nDescription: ${event.description || ""}`
+  )
+  .join("\n\n");
 
-    const prompt = `Categorize each calendar event into one of the following categories:
+  const prompt = `Categorize each calendar event into one of the following categories:
 
-    - Church Schedule
-    - Events to invite students to
-    - Travel
-    - Appointment with Friends
-    - Other appointments
-    - Time-boxed To-do tasks
+  - Church Schedule
+  - Events to invite students to
+  - Travel
+  - Appointment with Friends
+  - Other appointments
+  - Time-boxed To-do tasks
   
-  ${eventList}
-  
-  Return a JSON array of objects with "eventId" and "category" (using the no-whitespace key format), like so:
-  
-  [
-    { "eventId": "1234567890", "category": "ChurchSchedule" },
-    { "eventId": "1234567891", "category": "Travel" }
-  ]
-  
-  Use the **no-whitespace** version of the category name (camel case, no spaces) in the JSON output, as shown below:
+  Use these human-readable category names to decide which category fits best.  
+  However, in the JSON output, use the **no-whitespace camelCase version** of the category name, as shown below:
   
   Church Schedule → ChurchSchedule  
   Events to invite students to → EventsToInviteStudentsTo  
   Appointment with Friends → AppointmentWithFriends  
   Other appointments → OtherAppointments  
-  Time-boxed To-do tasks → TimeBoxedToDoTasks`;
+  Time-boxed To-do tasks → TimeBoxedToDoTasks  
+  Travel → Travel
+  
+  Here are the events to categorize:
+  
+  ${eventList}
+  
+  Return only a JSON array of objects with this format:
+  
+  [
+    { "eventId": "1234567890", "category": "ChurchSchedule" },
+    { "eventId": "1234567891", "category": "EventsToInviteStudentsTo" }
+  ]
+  
+  ⚠️ Do not include any explanation, headings, or repeat the input text.  
+  ✅ Only return **valid JSON**.`;     
 
   const response = await openai.chat.completions.create({
     model: "gpt-4.1",
