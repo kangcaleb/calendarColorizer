@@ -86,13 +86,18 @@ export const getCategoriesForEvents = async (
     }
 
     return parsed;
-  } catch (e) {
-    console.error("❌ JSON parsing failed:", e.message);
+  } catch (e: unknown) {
+    // Narrow to Error type first
+    if (e instanceof Error) {
+      console.error("❌ JSON parsing failed:", e.message);
   
-    const failPoint = parseInt(e.message.match(/position (\d+)/)?.[1] || '0', 10);
-    const context = output.slice(Math.max(failPoint - 30, 0), failPoint + 30);
-    console.error("🔍 Context around error:", context);
-  
+      const failPoint = parseInt(e.message.match(/position (\d+)/)?.[1] || '0', 10);
+      const context = output.slice(Math.max(failPoint - 30, 0), failPoint + 30);
+      console.error("🔍 Context around error:", context);
+    } else {
+      // If it's not an Error, just log it as-is
+      console.error("❌ JSON parsing failed with unknown error:", e);
+    }
     throw e;
   }
 };
