@@ -59,6 +59,8 @@ export const getCategoriesForEvents = async (
   console.log("Number of events in prompt:", events.length);
   console.log("Prompt:", prompt);
 
+  const maxTokens = Math.min(2000, events.length * 30 + 200); // rough estimate
+
   const response = await openai.chat.completions.create({
     model: "gpt-4.1",
     messages: [
@@ -68,7 +70,7 @@ export const getCategoriesForEvents = async (
       },
       { role: "user", content: prompt },
     ],
-    max_tokens: 200,
+    max_tokens: maxTokens,
     temperature: 0,
   });
 
